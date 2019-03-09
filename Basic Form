@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>  
+<body>
+<form ng-app="myApp" ng-controller="validateCtrl" 
+name="myForm" novalidate>
+<p>Username:<br>
+<input type="text" name="user" ng-model="user" required>
+<ng-show="myForm.user.$dirty && myForm.user.$invalid">
+<span ng-show="myForm.user.$error.required"><br>Username is required!</br></span>
+</span>
+</p>
+<p>Email:<br>
+<input type="email" name="email" ng-model="email" required>
+<ng-show="myForm.email.$dirty && myForm.email.$invalid">
+<span ng-show="myForm.email.$error.required"><br>Email is required!</br></span>
+<span ng-show="myForm.email.$error.email"><br>Invalid email address!</br></span>
+</span>
+</p>
+<p>
+<input type="submit"
+ng-disabled="myForm.user.$dirty && myForm.user.$invalid ||  
+myForm.email.$dirty && myForm.email.$invalid">
+</p>
+</form>
+<script>
+    var app = angular.module('myApp', []);
+    app.controller('validateCtrl', function ($scope) {
+        $scope.user = 'Suresh Kumar P';
+        $scope.email = 'meetsuresh.raj@gmail.com';
+    });
+</script>
+</body>
+</html>
+
