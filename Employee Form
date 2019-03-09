@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html ng-app="employeeApp">
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+</head>
+<body ng-controller="employeeController">
+    <h1>Employee Information:</h1>
+    <form ng-submit="submitEmployeeForm()">
+        <label for="name">Full Name: </label>
+        <br />
+        <input type="text" id="name" ng-model="employee.name" />
+        <br />
+        <label for="phone">Mobile Number:</label><br />
+        <input type="tel" id="phone" ng-model="employee.phone" />
+        <br />
+        <label for="email">E-mail Id:</label><br />
+        <input type="email" id="email" ng-model="employee.email" />
+        <br />
+        <br />
+        <label for="empId">Employee Id:</label><br />
+        <input type="tel" id="empId" ng-model="employee.empId" />
+        <br />
+        <label for="dept">Department:</label>
+        <br />
+        <select id="dept" ng-model="employee.dept">
+            <option value="">Select</option>
+            <option value="accounts">Accounts</option>
+            <option value="it">IT</option>
+            <option value="manufacturing">Manufacturing</option>
+            <option value="services">Services</option>
+        </select><br />
+        <br />
+        <input type="submit" value="Submit" />
+        <input type="reset" ng-click="resetForm()" value="Reset" />
+    </form>
+    <script>
+        //1. creating app module 
+        var employeeApp = angular.module('employeeApp', []);
+        //2. creating controller
+        employeApp.controller("employeeController", function ($scope, $http) {
+            //3. attaching originalEmployee model object
+            $scope.originalEmployee = {
+                name: '',
+                phone: '',
+                email: '',
+                empId: '',
+                dept: ''
+            };
+            //4. copying originalEmployee to employee. employee will be bind to a form 
+            $scope.employee = angular.copy($scope.employee);
+            //5. creating submitEmployeeForm() function. This will be called when user submits the form
+            $scope.submitEmployeeForm = function () {
+                var onSuccess = function (data, status, headers, config) {
+                    alert('Details saved successfully!');
+                }
+                var onError = function (data, status, headers, config) {
+                    alert('Error occured!');
+                }
+                $http.post('/employee/submitData', { student: $scope.employee })
+                    .success(onSuccess)
+                    .error(onError);
+            };
+            //6. creating resetForm() function. This will be called on Reset button click.  
+            $scope.resetForm = function () {
+                $scope.employee = angular.copy($scope.OriginalEmployee);
+            };
+        });
+    </script>
+</body>
+</html>
+
